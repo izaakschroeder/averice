@@ -1,0 +1,20 @@
+
+- name: Install packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - libselinux-python
+    - ca-certificates
+
+- name: Copy certificates
+  copy: src={{ item }} dest=/etc/pki/ca-trust/source/anchors/
+  with_items:
+    - walmart-labs-root-ca.pem
+  register: calist
+
+- name: Enable update-ca-trust
+  command: /usr/bin/update-ca-trust enable
+  when: calist.changed
+
+- name: Extract certificates
+  command: /usr/bin/update-ca-trust extract
+  when: calist.changed

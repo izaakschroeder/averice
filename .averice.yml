@@ -1,0 +1,38 @@
+image: xxx/web
+env:
+  NODE_ENV:
+    - test
+pre:
+  - npm install
+tasks:
+  lint:
+    - eslint --out json
+  nsp:
+    - npm install -g nsp
+    - nsp  --output json
+  david:
+    - npm install -g david
+    - ...
+
+  spec:
+    env:
+      ENIVRONMENT:
+        - node-4.0
+        - node-5.0
+        - phantomjs-2
+    tasks:
+      - npm run spec
+    artifacts:
+
+
+  integration:
+    tasks:
+      - magellen run
+
+  coverage:
+    depends:
+      - spec
+    tasks:
+      - ...
+    artifacts:
+      -

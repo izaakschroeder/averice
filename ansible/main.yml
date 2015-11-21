@@ -1,0 +1,38 @@
+
+- hosts: all
+  sudo: yes
+  roles:
+    - certificates
+
+  pre_tasks:
+    - name: update packages
+      yum: name=* state=latest
+    - name: fix oneops bullshit
+      file: path=/etc/yum.repos.d/{{ item }} state=absent
+      with_items:
+        - CentOS-Base.repo
+        - CentOS-Base.repo.install
+        - CentOS-CR.repo
+        - CentOS-CR.repo.install
+        - CentOS-Debuginfo.repo
+        - CentOS-Debuginfo.repo.install
+        - CentOS-fasttrack.repo
+        - CentOS-fasttrack.repo.install
+        - CentOS-Sources.repo
+        - CentOS-Sources.repo.install
+        - CentOS-Vault.repo
+        - CentOS-Vault.repo.install
+        - epel.repo.install
+        - epel-testing.repo.install
+
+- hosts: kubernetes,kubernetes-api
+  sudo: yes
+  roles:
+    - docker
+    - etcd peer=False proxy=True
+    - flannel
+
+- hosts: etcd
+  sudo: yes
+  roles:
+    - etcd peer=True proxy=False

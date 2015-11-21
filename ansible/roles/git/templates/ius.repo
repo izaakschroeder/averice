@@ -1,0 +1,6 @@
+[ius]
+name=IUS repository.
+baseurl=https://dl.iuscommunity.org/pub/ius/stable/CentOS/$releasever/$basearch
+gpgcheck=1
+gpgkey=https://dl.iuscommunity.org/pub/ius/IUS-COMMUNITY-GPG-KEY
+enabled=1

@@ -1,0 +1,13 @@
+
+- name: Add docker repository
+  copy: src=docker.repo dest=/etc/yum.repos.d/docker.repo
+
+- name: Install docker-engine
+  yum: name=docker-engine state=present
+  notify: Restart docker
+
+- name: Enable etcd
+  service: name=docker enabled=yes
+
+- name: Start etcd
+  service: name=docker state=started
