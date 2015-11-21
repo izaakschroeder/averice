@@ -1,0 +1,25 @@
+- name: create download dir
+  file: path="/tmp/.ansible/files" state=directory
+
+- name: download tar file
+  get_url:
+    url: "https://github.com/coreos/flannel/releases/download/v{{ flannel_version }}/flannel-{{ flannel_version }}-linux-amd64.tar.gz"
+    dest: /tmp/.ansible/files
+
+- name: extract tar file
+  unarchive:
+    src: "/tmp/.ansible/files/flannel-{{ flannel_version }}-linux-amd64.tar.gz"
+    dest: /opt
+    copy: no
+
+- name: create symlinks
+  file:
+    src: /opt/flannel-{{ flannel_version }}/{{ item }}
+    dest: /usr/local/bin/{{ item }}
+    state: link
+  with_items:
+    - flanneld
+
+- name: copy systemd service
+  copy: src=flanneld.service dest=/etc/systemd/system
+  notify: reload systemd

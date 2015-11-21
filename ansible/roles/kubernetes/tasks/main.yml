@@ -1,0 +1,5 @@
+
+
+- include: install.yml
+#  when: flannel_detected_version.rc != 0 or  flannel_detected_version.stderr.find(flannel_version) == -1
+#  notify: restart flanneld

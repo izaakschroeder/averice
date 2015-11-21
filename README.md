@@ -1,4 +1,16 @@
 
+TODO:
+ Make flannel optional for docker role!!
+ etcd https https://coreos.com/etcd/docs/0.4.7/etcd-security/
+
+Each datacenter (dc) has its own copy of kubernetes / etcd. Particularly because etcd expects low latency and intra-datacenter isn't the best for such things.
+
+can use group_by http://docs.ansible.com/ansible/group_by_module.html to pull out oneops info from env vars if needed
+
+fluentd backend for https://github.com/kubernetes/heapster
+federation: https://github.com/kubernetes/kubernetes/blob/master/docs/proposals/federation.md
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-kubernetes-on-top-of-a-coreos-cluster
+
 - Receive release
  - Wait until no more pending releases
  - Build the application image
@@ -57,7 +69,7 @@ https://github.com/maccman/sourcemap
 
 https://github.com/docker/distribution/blob/master/docs/deploying.md
 
-http://jenkins.feops.walmartlabs.com:8080/job/GD_Atlas_Common_PR_Verify/5864/injectedEnvVars/
+http://JENKINSURL/job/GD_Atlas_Common_PR_Verify/5864/injectedEnvVars/
 
 https://github.com/psi-4ward/docker-etcd-registrator
 https://github.com/flynn/flynn/blob/master/slugbuilder/builder/build.sh
@@ -74,4 +86,4 @@ http://docs.ansible.com/ansible/haproxy_module.html
 https://github.com/ansible/ansible-examples/blob/master/lamp_haproxy/rolling_update.yml
 Hooks:
 https://confluence.atlassian.com/jira/managing-webhooks-300814309.html
-https://gecgithub01.walmart.com/organizations/next/settings/hooks/new
+https://GITHUB/organizations/next/settings/hooks/new

@@ -1,0 +1,5 @@
+dependencies:
+  - role: etcd
+    etcd_proxy: True
+  - role: docker
+    docker_network_type: flannel

@@ -1,0 +1,5 @@
+
+flannel_version: "0.5.5"
+flannel_mtu: 1472
+flannel_backend_type: vxlan
+flannel_host_prefix: 24

@@ -1,14 +1,29 @@
 
-- name: Install flannel
-  yum: name=flannel state=present
-  notify: Restart flannel
+- name: get flannel version
+  command: /usr/local/bin/flanneld --version
+  register: flannel_detected_version
+  ignore_errors: yes
 
-- name: Install Flannel config file
+- name: enable flanneld user
+  user: name=flanneld comment=flanneld createhome=no shell=/bin/false
+
+- include: install.yml
+  when: flannel_detected_version.rc != 0 or  flannel_detected_version.stderr.find(flannel_version) == -1
+  notify: restart flanneld
+
+- name: install flannel config file
   template: src=flanneld.j2 dest=/etc/sysconfig/flanneld
-  notify: Restart flannel
+  notify: restart flanneld
 
-- name: Enable flannel
-  service: name=flannel enabled=yes
+- name: enable flanneld
+  service: name=flanneld enabled=yes
 
-- name: Start flannel
-  service: name=flannel state=started
+# TODO: want a run_once per-dc for these 3
+- name: ensure etcd is running
+  service: name=etcd state=started
+
+- name: Create flannel config file to go in etcd
+  template: src=network.json.j2 dest=/tmp/flannel.json
+
+- name: Load the flannel config file into etcd
+  shell: "/usr/local/bin/etcdctl set {{ flannel_etcd_key }}/config < /tmp/flannel.json"

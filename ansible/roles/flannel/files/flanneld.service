@@ -1,0 +1,13 @@
+[Unit]
+Description=Flannel network fabric
+Requires=etcd.service
+After=etcd.service
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/flanneld
+ExecStart=/usr/local/bin/flanneld
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

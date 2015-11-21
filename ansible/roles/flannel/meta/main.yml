@@ -1,0 +1,3 @@
+dependencies:
+  - role: etcd
+    etcd_proxy: True

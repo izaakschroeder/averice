@@ -1,13 +1,16 @@
 
-- name: Add docker repository
+- name: add docker repository
   copy: src=docker.repo dest=/etc/yum.repos.d/docker.repo
 
-- name: Install docker-engine
+- name: install docker-engine
   yum: name=docker-engine state=present
-  notify: Restart docker
+  notify: restart docker
 
-- name: Enable etcd
+- name: copy systemd service
+  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
+  notify:
+    - reload systemd
+    - restart docker
+
+- name: enable docker
   service: name=docker enabled=yes
-
-- name: Start etcd
-  service: name=docker state=started

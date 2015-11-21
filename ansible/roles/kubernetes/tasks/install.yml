@@ -1,0 +1,32 @@
+
+- name: make sure directory exists
+  file: path=/opt/kubernetes-{{ kubernetes_version }}/bin state=directory
+
+- name: download kubernetes binaries
+  get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64/{{ item }}"
+    dest: /opt/kubernetes-{{ kubernetes_version }}/bin
+  with_items:
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-proxy
+    - kube-scheduler
+    - kubecfg
+    - kubectl
+    - kubelet
+    - kubernetes
+
+- name: create symlinks
+  file:
+    src: /opt/kubernetes-{{ kubernetes_version }}/bin/{{ item }}
+    dest: /usr/local/bin/{{ item }}
+    state: link
+  with_items:
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-proxy
+    - kube-scheduler
+    - kubecfg
+    - kubectl
+    - kubelet
+    - kubernetes

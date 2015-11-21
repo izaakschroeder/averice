@@ -1,0 +1,3 @@
+kubernetes_version: "1.1.2"
+kubernetes_kubelet_port: 10250
+kubernetes_api_endpoint: kubernetes.foo.com

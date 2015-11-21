@@ -1,0 +1,21 @@
+[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=docker.service
+Requires=docker.service
+After=etcd.service
+Wants=etcd.service
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/opt/bin/kubelet \
+  -address=${COREOS_PRIVATE_IPV4} \
+  -port={{ kubernetes_kubelet_port }} \
+  -hostname_override=${COREOS_PRIVATE_IPV4} \
+  -etcd_servers=http://127.0.0.1:{{ etcd_client_port }} \
+  -logtostderr=true
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

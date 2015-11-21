@@ -1,4 +1,5 @@
-- name: restart docker
-  service: name=docker state=restarted
+- name: restart etcd
+  service: name=etcd state=restarted
+
 - name: reload systemd
   command: systemctl --system daemon-reload
